@@ -9,6 +9,12 @@ interface QuestionItemProps {
   alertQuestionAnsweredCorrectly: () => void;
 }
 
+const decodeHtml = (text: string): string => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = text;
+  return txt.value;
+};
+
 const generateAnswerOrder = (
   type: string,
   correct_answer: string,
@@ -56,7 +62,7 @@ const QuestionItem = (props: QuestionItemProps): React.ReactElement => {
   return (
     <div>
       <h3>Question {questionNumber}</h3>
-      <p>{questionText}</p>
+      <p>{decodeHtml(questionText)}</p>
       {answerOrder.map((answer, i) => {
         const answeredBackgroundColor =
           answer === correct_answer ? "green" : "red";

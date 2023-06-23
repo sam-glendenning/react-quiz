@@ -50,8 +50,8 @@ const App = () => {
   const [selectedNumberOfQuestions, setSelectedNumberOfQuestions] =
     React.useState<number>(10);
 
-  const [questionsAnswered, setQuestionAnswered] = React.useState<number>(0);
-  const [questionsAnsweredCorrectly, setQuestionAnsweredCorrectly] =
+  const [questionsAnswered, setQuestionsAnswered] = React.useState<number>(0);
+  const [questionsAnsweredCorrectly, setQuestionsAnsweredCorrectly] =
     React.useState<number>(0);
   const [quizState, setQuizState] = React.useState<
     "not started" | "loading" | "started" | "ended"
@@ -72,11 +72,11 @@ const App = () => {
   }, [isLoading, data]);
 
   const alertQuestionAnswered = () => {
-    setQuestionAnswered((oldNumber) => oldNumber + 1);
+    setQuestionsAnswered((oldNumber) => oldNumber + 1);
   };
 
   const alertQuestionAnsweredCorrectly = () => {
-    setQuestionAnsweredCorrectly((oldNumber) => oldNumber + 1);
+    setQuestionsAnsweredCorrectly((oldNumber) => oldNumber + 1);
   };
 
   const handleStart = () => {
@@ -103,7 +103,7 @@ const App = () => {
       <br />
       <br />
       {quizState === "not started" && (
-        <FormControl sx={{ width: "200px" }}>
+        <FormControl sx={{ width: "150px" }}>
           <InputLabel>Number of questions</InputLabel>
           <Select
             value={selectedNumberOfQuestions}
@@ -138,9 +138,9 @@ const App = () => {
             <div>
               <p>{`Correct: ${questionsAnsweredCorrectly}/${selectedNumberOfQuestions}`}</p>
               <p>{`Score required to pass: ${Math.ceil(
-                questionsAnswered / 2
-              )}/${questionsAnswered}`}</p>
-              {questionsAnsweredCorrectly / questionsAnswered >= 0.5 ? (
+                selectedNumberOfQuestions / 2
+              )}/${selectedNumberOfQuestions}`}</p>
+              {questionsAnsweredCorrectly / selectedNumberOfQuestions >= 0.5 ? (
                 <p>You passed!</p>
               ) : (
                 <p>You failed!</p>

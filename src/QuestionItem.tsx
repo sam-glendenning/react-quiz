@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 interface QuestionItemProps {
   question: Question;
   questionNumber: number;
+  alertQuestionAnswered: () => void;
   alertQuestionAnsweredCorrectly: () => void;
 }
 
@@ -24,7 +25,12 @@ const generateAnswerOrder = (
 };
 
 const QuestionItem = (props: QuestionItemProps): React.ReactElement => {
-  const { question, questionNumber, alertQuestionAnsweredCorrectly } = props;
+  const {
+    question,
+    questionNumber,
+    alertQuestionAnswered,
+    alertQuestionAnsweredCorrectly,
+  } = props;
   const {
     category,
     type,
@@ -43,6 +49,7 @@ const QuestionItem = (props: QuestionItemProps): React.ReactElement => {
 
   const handleSelectAnswer = (answer: string) => {
     setQuestionAnswered(true);
+    alertQuestionAnswered();
     if (correct_answer === answer) {
       alertQuestionAnsweredCorrectly();
     }

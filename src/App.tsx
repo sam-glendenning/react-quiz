@@ -1,8 +1,9 @@
 import React from "react";
 import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 import axios, { type AxiosError } from "axios";
+import QuestionItem from "./QuestionItem";
 
-type Question = {
+export type Question = {
   category: string;
   type: "boolean" | "multiple";
   difficulty: "easy" | "medium" | "hard";
@@ -16,8 +17,8 @@ interface QuestionsResponse {
   results: Question[];
 }
 
-const useQuestions = (): UseQueryResult<QuestionsResponse, Error> =>
-  useQuery<QuestionsResponse, Error, QuestionsResponse, [string]>(
+const useQuestions = (): UseQueryResult<QuestionsResponse, AxiosError> =>
+  useQuery<QuestionsResponse, AxiosError, QuestionsResponse, [string]>(
     ["questions"],
     () => {
       return axios
@@ -31,6 +32,8 @@ const App = () => {
   const { data, isLoading } = useQuestions();
 
   const [questions, setQuestions] = React.useState<Question[]>([]);
+  const [questionsAnsweredCorrectly, setQuestionAnsweredCorrectly] =
+    React.useState<number>(0);
 
   React.useEffect(() => {
     if (!isLoading && data) {
@@ -40,18 +43,27 @@ const App = () => {
     }
   }, [isLoading, data]);
 
+  const alertQuestionAnsweredCorrectly = () => {
+    setQuestionAnsweredCorrectly((oldNumber) => oldNumber + 1);
+  };
+
   return (
     <div className="App">
       <header>Quiz</header>
       {questions.length === 0 ? (
         <p>Loading...</p>
       ) : (
-        questions.map((question, i) => (
-          <div>
-            <h3>Question {i + 1}</h3>
-            <p>{question.question}</p>
-          </div>
-        ))
+        <div>
+          <p>{`Correct: ${questionsAnsweredCorrectly}/10`}</p>
+          {questions.map((question, i) => (
+            <QuestionItem
+              key={i}
+              question={question}
+              questionNumber={i + 1}
+              alertQuestionAnsweredCorrectly={alertQuestionAnsweredCorrectly}
+            />
+          ))}
+        </div>
       )}
     </div>
   );

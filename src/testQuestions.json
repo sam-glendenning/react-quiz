@@ -1,0 +1,85 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "category": "Entertainment: Music",
+      "type": "boolean",
+      "difficulty": "easy",
+      "question": "The music group Daft Punk got their name from a negative review they recieved.",
+      "correct_answer": "True",
+      "incorrect_answers": ["False"]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "Which of these is a type of monster found in Minecraft?",
+      "correct_answer": "Skeleton",
+      "incorrect_answers": ["Werewolf", "Vampire", "Minotaur"]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "In the beta version of the 1986 game &quot;The Legend of Zelda&quot;, players have the choice between a sword and what other item?",
+      "correct_answer": "Boomerang ",
+      "incorrect_answers": ["Spear", "Slingshot", "Crossbow"]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "boolean",
+      "difficulty": "hard",
+      "question": "Danganronpa 2: Goodbye Despair featured all of the surviving students from the first game.",
+      "correct_answer": "False",
+      "incorrect_answers": ["True"]
+    },
+    {
+      "category": "Animals",
+      "type": "boolean",
+      "difficulty": "medium",
+      "question": "The Platypus is a mammal.",
+      "correct_answer": "True",
+      "incorrect_answers": ["False"]
+    },
+    {
+      "category": "Entertainment: Television",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "In the television show Breaking Bad, what is the street name of Walter and Jesse&#039;s notorious product?",
+      "correct_answer": "Blue Sky",
+      "incorrect_answers": ["Baby Blue", "Rock Candy", "Pure Glass"]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "In Minecraft, which two items must be combined to craft a torch?",
+      "correct_answer": "Stick and Coal",
+      "incorrect_answers": ["Stick and Fire", "Wood and Coal", "Wood and Fire"]
+    },
+    {
+      "category": "Entertainment: Cartoon & Animations",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "Which of these characters from &quot;SpongeBob SquarePants&quot; is not a squid?",
+      "correct_answer": "Gary",
+      "incorrect_answers": ["Orvillie", "Squidward", "Squidette"]
+    },
+    {
+      "category": "Sports",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "Who won the UEFA Champions League in 2017?",
+      "correct_answer": "Real Madrid C.F.",
+      "incorrect_answers": ["Atletico Madrid", "AS Monaco FC", "Juventus F.C."]
+    },
+    {
+      "category": "Entertainment: Comics",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "In Bionicle, who was formerly a Av-Matoran and is now the Toa of Light?",
+      "correct_answer": "Takua",
+      "incorrect_answers": ["Jaller", "Vakama", "Tahu"]
+    }
+  ]
+}

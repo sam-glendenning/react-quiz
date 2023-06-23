@@ -78,7 +78,7 @@ const QuestionItem = (props: QuestionItemProps): React.ReactElement => {
             }}
             onClick={() => handleSelectAnswer(answer)}
           >
-            {answer}
+            {decodeHtml(answer)}
           </Button>
         );
       })}

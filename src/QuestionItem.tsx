@@ -32,9 +32,7 @@ const QuestionItem = (props: QuestionItemProps): React.ReactElement => {
     alertQuestionAnsweredCorrectly,
   } = props;
   const {
-    category,
     type,
-    difficulty,
     question: questionText,
     correct_answer,
     incorrect_answers,

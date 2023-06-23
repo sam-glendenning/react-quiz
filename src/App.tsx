@@ -3,7 +3,13 @@ import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 import axios, { type AxiosError } from "axios";
 import QuestionItem from "./QuestionItem";
 import Stopwatch from "./Stopwatch";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 export type Question = {
   category: string;
@@ -19,31 +25,47 @@ interface QuestionsResponse {
   results: Question[];
 }
 
-const useQuestions = (): UseQueryResult<QuestionsResponse, AxiosError> =>
-  useQuery<QuestionsResponse, AxiosError, QuestionsResponse, [string]>(
-    ["questions"],
+const useQuestions = (
+  quizStart: boolean,
+  numberOfQuestions: number
+): UseQueryResult<QuestionsResponse, AxiosError> =>
+  useQuery<
+    QuestionsResponse,
+    AxiosError,
+    QuestionsResponse,
+    [string, { numberOfQuestions: number }]
+  >(
+    ["questions", { numberOfQuestions }],
     () => {
       return axios
-        .get("https://opentdb.com/api.php?amount=10")
+        .get(`https://opentdb.com/api.php?amount=${numberOfQuestions}`)
         .then((response) => response.data);
     },
-    {}
+    { enabled: quizStart }
   );
 
 const App = () => {
-  const { data, isLoading } = useQuestions();
-
   const [questions, setQuestions] = React.useState<Question[]>([]);
+
+  const [selectedNumberOfQuestions, setSelectedNumberOfQuestions] =
+    React.useState<number>(10);
+
   const [questionsAnswered, setQuestionAnswered] = React.useState<number>(0);
   const [questionsAnsweredCorrectly, setQuestionAnsweredCorrectly] =
     React.useState<number>(0);
   const [quizState, setQuizState] = React.useState<
-    "loading" | "not started" | "started" | "ended"
+    "not started" | "loading" | "started" | "ended"
   >("not started");
+
+  const { data, isLoading } = useQuestions(
+    quizState === "loading",
+    selectedNumberOfQuestions
+  );
 
   React.useEffect(() => {
     if (!isLoading && data) {
       setQuestions(data.results);
+      handleStopwatchStart();
     } else {
       setQuestions([]);
     }
@@ -58,6 +80,10 @@ const App = () => {
   };
 
   const handleStart = () => {
+    setQuizState("loading");
+  };
+
+  const handleStopwatchStart = () => {
     setQuizState("started");
   };
 
@@ -66,20 +92,34 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    if (questionsAnswered === 10) {
+    if (questionsAnswered === selectedNumberOfQuestions) {
       handleStop();
     }
-  }, [questionsAnswered]);
+  }, [questionsAnswered, selectedNumberOfQuestions]);
 
   return (
     <div className="App">
       <header>Sam's Big Fat Quiz</header>
       <br />
       <br />
-      {quizState === "loading" && <p>Loading...</p>}
       {quizState === "not started" && (
-        <Button onClick={() => handleStart()}>Start</Button>
+        <FormControl sx={{ width: "200px" }}>
+          <InputLabel>Number of questions</InputLabel>
+          <Select
+            value={selectedNumberOfQuestions}
+            label="Number of questions"
+            onChange={(e) =>
+              setSelectedNumberOfQuestions(e.target.value as number)
+            }
+          >
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+          </Select>
+          <Button onClick={() => handleStart()}>Start</Button>
+        </FormControl>
       )}
+      {quizState === "loading" && <p>Loading...</p>}
       {(quizState === "started" || quizState === "ended") && (
         <div>
           <Stopwatch active={quizState === "started"} />
@@ -96,7 +136,7 @@ const App = () => {
           </div>
           {quizState === "ended" && (
             <div>
-              <p>{`Correct: ${questionsAnsweredCorrectly}/10`}</p>
+              <p>{`Correct: ${questionsAnsweredCorrectly}/${selectedNumberOfQuestions}`}</p>
               <p>{`Score required to pass: ${Math.ceil(
                 questionsAnswered / 2
               )}/${questionsAnswered}`}</p>
